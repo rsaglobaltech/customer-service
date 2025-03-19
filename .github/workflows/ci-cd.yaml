@@ -17,3 +17,4 @@ jobs:
               run: |
                   if [[ "${GITHUB_REF#refs/heads/}" == feature/* ]]; then
                      echo "ENVIRONMENT=feature-${GITHUB_REF#refs/heads/feature/}"
+                  fi
