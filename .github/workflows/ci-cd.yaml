@@ -17,8 +17,12 @@ jobs:
               run: |
                   if [[ "${GITHUB_REF#refs/heads/}" == feature/* ]]; then
                      echo "ENVIRONMENT=feature-${GITHUB_REF#refs/heads/feature/}" >> $GITHUB_ENV
+                     BRANCH_NAME=${GITHUB_REF#refs/heads/}
+                     TEAM_NAME=$(echo $BRANCH_NAME | cut -d'/' -f2)
                   fi
+                  echo "TEAM_NAME=$TEAM_NAME"
+                  echo "TEAM_NAME=$TEAM_NAME" >> $GITHUB_ENV
             - name: Build Docker Image
               run: |
-                  docker build -t 19910821/customer-service:${{github.sha}} .
-                  docker tag 19910821/customer-service:${{github.sha}}  19910821/customer-service:$ENVIRONMENT-${{github.sha}} .
+                  docker build -t 19910821/customer-service:$TEAM_NAME-${{ github.sha }} .
+                  docker tag 19910821/customer-service:$TEAM_NAME-${{ github.sha }}  19910821/customer-service:$TEAM_NAME-${{ github.sha }}
