@@ -7,7 +7,7 @@ on:
         paths-ignore:
             - 'docs/**'
 jobs:
-    deploy:
+    build:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout Repository
@@ -16,5 +16,9 @@ jobs:
             - name: Extract Environment from Branch Name
               run: |
                   if [[ "${GITHUB_REF#refs/heads/}" == feature/* ]]; then
-                     echo "ENVIRONMENT=feature-${GITHUB_REF#refs/heads/feature/}"
+                     echo "ENVIRONMENT=feature-${GITHUB_REF#refs/heads/feature/}" >> $GITHUB_ENV
                   fi
+            - name: Build Docker Image
+              run: |
+                  docker build -t 19910821/customer-service:${{github.sha}} .
+                  docker tag 19910821/customer-service:${{github.sha}}  19910821/customer-service:$ENVIRONMENT-${{github.sha}} .
