@@ -1,0 +1,19 @@
+name: Ci CD Pipeline
+
+on:
+    push:
+        branches:
+            - feature/**
+        paths-ignore:
+            - 'docs/**'
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v3
+
+            - name: Extract Environment from Branch Name
+              run: |
+                  if [[ "${GITHUB_REF#refs/heads/}" == feature/* ]]; then
+                     echo "ENVIRONMENT=feature-${GITHUB_REF#refs/heads/feature/}"
