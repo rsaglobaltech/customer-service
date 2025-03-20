@@ -25,7 +25,7 @@ jobs:
                   NAMESPACE=$(echo "${{ github.ref }}" | sed 's/refs\/heads\///')
                   echo $NAMESPACE
                   echo "TEAM_NAME=$TEAM_NAME" >> $GITHUB_ENV
-                  echo "BRANCH_NAME_TEAM=BRANCH_NAME_TEAM" >> $GITHUB_ENV
+                  echo "BRANCH_NAME_TEAM=$BRANCH_NAME_TEAM" >> $GITHUB_ENV
             # Step 2: Log in to Docker Hub
             - name: Log in to Docker Hub
               uses: docker/login-action@v2
