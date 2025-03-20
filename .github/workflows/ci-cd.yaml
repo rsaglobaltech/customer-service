@@ -25,6 +25,7 @@ jobs:
                   NAMESPACE=$(echo "${{ github.ref }}" | sed 's/refs\/heads\///')
                   echo $NAMESPACE
                   echo "TEAM_NAME=$TEAM_NAME" >> $GITHUB_ENV
+                  echo "BRANCH_NAME_TEAM=BRANCH_NAME_TEAM" >> $GITHUB_ENV
             # Step 2: Log in to Docker Hub
             - name: Log in to Docker Hub
               uses: docker/login-action@v2
@@ -34,8 +35,8 @@ jobs:
 
             - name: Build Docker Image
               run: |
-                  docker build -t 19910821/products-service:$TEAM_NAME-$BRANCH_NAME_TEAM-${{ github.sha }} .
-                  docker tag 19910821/products-service:$TEAM_NAME-$BRANCH_NAME_TEAM-${{ github.sha }}  19910821/products-service:$TEAM_NAME-$BRANCH_NAME_TEAM-${{ github.sha }}
+                  docker build -t 19910821/products-microservice:$TEAM_NAME-$BRANCH_NAME_TEAM-${{ github.sha }} .
+                  docker tag 19910821/products-microservice:$TEAM_NAME-$BRANCH_NAME_TEAM-${{ github.sha }}  19910821/products-microservice:$TEAM_NAME-$BRANCH_NAME_TEAM-${{ github.sha }}
             - name: Push Docker Image
               run: |
-                  docker push 19910821/products-service:$TEAM_NAME-$BRANCH_NAME_TEAM-${{ github.sha }}
+                  docker push 19910821/products-microservice:$TEAM_NAME-$BRANCH_NAME_TEAM-${{ github.sha }}
