@@ -19,6 +19,7 @@ jobs:
                      echo "ENVIRONMENT=feature-${GITHUB_REF#refs/heads/feature/}" >> $GITHUB_ENV
                      BRANCH_NAME=${GITHUB_REF#refs/heads/}
                      TEAM_NAME=$(echo $BRANCH_NAME | cut -d'/' -f2)
+                     BRANCH_NAME_TEAM=$(echo $BRANCH_NAME | cut -d'/' -f3) 
                   fi
                   echo "TEAM_NAME=$TEAM_NAME"
                   NAMESPACE=$(echo "${{ github.ref }}" | sed 's/refs\/heads\///')
@@ -33,8 +34,8 @@ jobs:
 
             - name: Build Docker Image
               run: |
-                  docker build -t 19910821/products-service:$NAMESPACE-${{ github.sha }} .
-                  docker tag 19910821/products-service:$NAMESPACE-${{ github.sha }}  19910821/products-service:$NAMESPACE-${{ github.sha }}
+                  docker build -t 19910821/products-service:$TEAM_NAME-$BRANCH_NAME_TEAM-${{ github.sha }} .
+                  docker tag 19910821/products-service:$TEAM_NAME-$BRANCH_NAME_TEAM-${{ github.sha }}  19910821/products-service:$TEAM_NAME-$BRANCH_NAME_TEAM-${{ github.sha }}
             - name: Push Docker Image
               run: |
-                  docker push 19910821/products-service:$NAMESPACE-${{ github.sha }}
+                  docker push 19910821/products-service:$TEAM_NAME-$BRANCH_NAME_TEAM-${{ github.sha }}
